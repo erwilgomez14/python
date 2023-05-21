@@ -27,10 +27,10 @@ class Sidebar(tk.Frame):
         self.frame_secciones.pack(fill=tk.X, padx=10, pady=20)
         
         # Botones de secciones
-        self.btn_seccion1 = tk.Button(self.frame_secciones, text="Clientes", font=('Arial', 12), width=15 ,command=self.mostrar_clientes_view)
+        self.btn_seccion1 = tk.Button(self.frame_secciones, text="Clientes", font=('Arial', 12), width=15, command=lambda: self.mostrar_vista("Clientes"))
         self.btn_seccion1.pack(pady=5)
         
-        self.btn_seccion2 = tk.Button(self.frame_secciones, text="Suites", font=('Arial', 12), width=15,command=self.mostrar_suites_view)
+        self.btn_seccion2 = tk.Button(self.frame_secciones, text="Suites", font=('Arial', 12), width=15, command=lambda: self.mostrar_vista("Suites"))
         self.btn_seccion2.pack(pady=5)
         
         self.btn_seccion3 = tk.Button(self.frame_secciones, text="inventario", font=('Arial', 12), width=15)
@@ -51,8 +51,9 @@ class Sidebar(tk.Frame):
         
     def mostrar_suites_view(self):
         # Ocultar el Sidebar actual
-        self.pack_forget()
+        #self.pack_forget()
         
         # Crear la vista de suites
         suites_view = SuitesView(self.master)
         suites_view.pack(fill=tk.BOTH, expand=True)
+        #self.parent.mostrar_vista("Suites")  # Llamar a la función mostrar_vista del padre

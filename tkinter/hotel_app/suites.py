@@ -4,7 +4,7 @@ from pymongo import MongoClient
 class SuitesView(tk.Frame):
     def __init__(self, parent):
         super().__init__(parent)
-        self.configure(bg='lightblue')
+        self.configure(bg='lightgray')
         
         # Etiquetas y campos de entrada
         self.label_numero = tk.Label(self, text="Número de suite:")
@@ -22,6 +22,9 @@ class SuitesView(tk.Frame):
         # Botón de guardar
         self.button_guardar = tk.Button(self, text="Guardar", command=self.guardar_suite)
         self.button_guardar.pack(pady=10)
+
+         # Configuración del pack del widget principal
+        self.pack(fill=tk.BOTH, expand=True, padx=0, pady=0)
         
     def guardar_suite(self):
         # Aquí puedes agregar la lógica para guardar los datos de la suite en tu base de datos

@@ -39,18 +39,17 @@ class HotelApp(tk.Tk):
         self.vista_actual = None
     
     def mostrar_vista(self, vista):
-        # Verificar si la vista seleccionada es diferente a la actualmente mostrada
         if self.vista_actual != vista:
             # Limpiar el contenido actual
-            if self.vista_actual is not None:
-                self.vista_actual.destroy()
-        
+            for widget in self.content_frame.winfo_children():
+                widget.pack_forget()
+
             # Mostrar la nueva vista seleccionada
             if vista == "Clientes":
                 self.vista_actual = self.clientes_view
             elif vista == "Suites":
                 self.vista_actual = self.suites_view
-        
+
             self.vista_actual.pack(fill=tk.BOTH, expand=True)
         
         # Mantener el sidebar visible
