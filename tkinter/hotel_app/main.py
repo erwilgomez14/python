@@ -2,6 +2,7 @@ import tkinter as tk
 from sidebar import Sidebar
 from clientes import ClientesView
 from suites import SuitesView
+from inventario import InventarioView
 
 class HotelApp(tk.Tk):
     def __init__(self):
@@ -34,6 +35,7 @@ class HotelApp(tk.Tk):
         # Instancias de vistas
         self.clientes_view = ClientesView(self.content_frame)
         self.suites_view = SuitesView(self.content_frame)
+        self.inventario_view = InventarioView(self.content_frame)
         
         # Vista actualmente mostrada
         self.vista_actual = None
@@ -49,6 +51,8 @@ class HotelApp(tk.Tk):
                 self.vista_actual = self.clientes_view
             elif vista == "Suites":
                 self.vista_actual = self.suites_view
+            elif vista == "Inventario":
+                self.vista_actual = self.inventario_view
 
             self.vista_actual.pack(fill=tk.BOTH, expand=True)
         
