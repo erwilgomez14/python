@@ -2,6 +2,7 @@ import tkinter as tk
 import sys
 from clientes import ClientesView
 from suites import SuitesView
+from inventario import InventarioView
 
 class Sidebar(tk.Frame):
     def __init__(self, parent, mostrar_vista):
@@ -33,7 +34,7 @@ class Sidebar(tk.Frame):
         self.btn_seccion2 = tk.Button(self.frame_secciones, text="Suites", font=('Arial', 12), width=15, command=lambda: self.mostrar_vista("Suites"))
         self.btn_seccion2.pack(pady=5)
         
-        self.btn_seccion3 = tk.Button(self.frame_secciones, text="inventario", font=('Arial', 12), width=15)
+        self.btn_seccion3 = tk.Button(self.frame_secciones, text="Inventario",  font=('Arial', 12), width=15, command=lambda: self.mostrar_vista("Inventario"))
         self.btn_seccion3.pack(pady=5)
         
          # Botón de salida
@@ -57,3 +58,8 @@ class Sidebar(tk.Frame):
         suites_view = SuitesView(self.master)
         suites_view.pack(fill=tk.BOTH, expand=True)
         #self.parent.mostrar_vista("Suites")  # Llamar a la función mostrar_vista del padre
+
+        # Crear la vista de inventario
+    def mostrar_inventario_view(self):
+        inventario_view = InventarioView(self.master)
+        inventario_view.pack(fill=tk.BOTH, expand=True)
