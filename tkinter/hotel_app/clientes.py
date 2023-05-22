@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import ttk
 from pymongo import MongoClient
+import itertools
 
 class ClientesView(tk.Frame):
     def __init__(self, parent):
@@ -18,11 +19,17 @@ class ClientesView(tk.Frame):
         # Botón para mostrar el listado
         self.button_listado = tk.Button(self.botones_frame, text="Mostrar Listado", command=self.mostrar_listado)
         self.button_listado.pack(side=tk.LEFT, padx=5, pady=10)
-        
+
         # Tabla de clientes
         self.treeview_clientes = ttk.Treeview(self, columns=("Nombre", "Teléfono"))
+        self.treeview_clientes.heading("#0", text="N°")
+        #self.treeview_clientes.heading("ID", text="ID")
         self.treeview_clientes.heading("Nombre", text="Nombre")
         self.treeview_clientes.heading("Teléfono", text="Teléfono")
+        self.treeview_clientes.column("#0", width=30)
+        #self.treeview_clientes.column("ID", width=30)
+        self.treeview_clientes.column("Nombre", width=150)
+        self.treeview_clientes.column("Teléfono", width=100)
         self.treeview_clientes.pack(pady=10)
 
         # Botón para crear un nuevo cliente
@@ -55,10 +62,6 @@ class ClientesView(tk.Frame):
         # Botón de guardar
         self.button_guardar = tk.Button(self, text="Guardar", command=self.guardar_cliente)
         self.button_guardar.pack(pady=10)
-        # Limpiar el formulario anterior si existe
-        #self.limpiar_formulario()
-
-       
 
     def limpiar_formulario(self):
         # Eliminar los elementos del formulario de creación de clientes
@@ -95,15 +98,24 @@ class ClientesView(tk.Frame):
         }
 
         # Insertar el documento en la colección
-        collection.insert_one(cliente)
+        resultado = collection.insert_one(cliente)
+
+        # Obtener el ID generado para el cliente
+        cliente_id = str(resultado.inserted_id)
 
         # Cerrar la conexión con MongoDB
         client.close()
 
+        # Obtener el número de clientes existentes en la tabla
+        numero_clientes = len(self.treeview_clientes.get_children())
+
+        # Insertar el cliente en la tabla con su respectivo ID y número de cliente
+        self.treeview_clientes.insert("", "end", text=str(numero_clientes+1), values=(cliente_id, nombre, telefono))
+
     def mostrar_listado(self):
-        
         # Ocultar el formulario de creación
         self.limpiar_formulario()
+
         # Limpiar la tabla
         self.treeview_clientes.delete(*self.treeview_clientes.get_children())
 
@@ -116,12 +128,13 @@ class ClientesView(tk.Frame):
         clientes = collection.find()
 
         # Mostrar el listado de clientes en la tabla
-        for cliente in clientes:
+        for index, cliente in enumerate(clientes, start=1):
+            #cliente_id = str(cliente['_id'])
             nombre = cliente['nombre']
             telefono = cliente['telefono']
-            self.treeview_clientes.insert("", "end", values=(nombre, telefono))
+            self.treeview_clientes.insert("", "end", text=str(index), values=(nombre, telefono))
 
         # Cerrar la conexión con MongoDB
         client.close()
-        
+
         self.treeview_clientes.pack(pady=10)
